@@ -1,0 +1,6 @@
+fastapi==0.121.1
+uvicorn==0.30.5
+sqlmodel==0.0.24
+psycopg2-binary==2.9.10
+logfire==3.23.0
+pydantic-settings==2.10.1
