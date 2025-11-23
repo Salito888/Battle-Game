@@ -1,14 +1,8 @@
 
-import sys
-from pathlib import Path
-
-# Agregar el directorio raíz al path de Python
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import APIRouter
 from app.controller.Game_controller import router as game_router
+
 
 # Configuración básica de la aplicación
 app = FastAPI(
@@ -27,12 +21,15 @@ app.add_middleware(
 )
 
 
-# Incluir rutas de la API
+app.include_router(game_router, prefix="/api")
 
-api_router = APIRouter()
-app.include_router(game_router)
+
+@app.get("/")
+def read_root():
+    return {"message": "Batalla Naval API is running!"}
 
 # Iniciar la aplicación
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)  
+

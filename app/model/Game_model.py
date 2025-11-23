@@ -1,10 +1,26 @@
 
 from enum import Enum
-from typing import List, Optional, Dict, Any,  Set
+from typing import List, Optional, Dict, Any, Set
 from pydantic import BaseModel, Field, ConfigDict
 from uuid import UUID, uuid4
-from app.model.Game_model import ShipOrientation
-from app.model.Game_model import Coordinate
+
+
+class ShipOrientation(str, Enum):
+    HORIZONTAL = "HORIZONTAL"
+    VERTICAL = "VERTICAL"
+
+
+class Coordinate(BaseModel):
+    row: int
+    col: int
+    
+    def __hash__(self):
+        return hash((self.row, self.col))
+
+    def __eq__(self, other):
+        if not isinstance(other, Coordinate):
+            return False
+        return self.row == other.row and self.col == other.col
 
 
 class ShipCreate(BaseModel):
@@ -14,34 +30,17 @@ class ShipCreate(BaseModel):
     coordinates: List[Coordinate]
 
 
+
 class GameState(str, Enum):
     IN_PROGRESS = "IN_PROGRESS"
     FINISHED = "FINISHED"
 
-
-class ShipOrientation(str, Enum):
-    HORIZONTAL = "HORIZONTAL"  
-    VERTICAL = "VERTICAL"      
 
 
 class ShotResult(str, Enum):
     WATER = "WATER"
     HIT = "HIT"
     SUNK = "SUNK"
-
-
-class Coordinate(BaseModel):
-    """Representa una coordenada en el tablero de juego."""
-    row: int
-    col: int
-
-    def __hash__(self):
-        return hash((self.row, self.col))
-
-    def __eq__(self, other):
-        if not isinstance(other, Coordinate):
-            return False
-        return self.row == other.row and self.col == other.col
 
 
 class ShipNode(BaseModel):

@@ -1,0 +1,391 @@
+
+{
+  "info": {
+    "name": "Battleship Game API - Administrador Completo",
+    "description": "API REST para Batalla Naval - Tú defines tablero, barcos y jugadores",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Administrador - Configurar Juego COMPLETO",
+      "item": [
+        {
+          "name": "Configurar Tablero y Barcos Personalizados",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"board_size\": 0,\n  \"ships\": [\n    {\n      \"name\": \"\",\n      \"size\": 0\n    },\n    {\n      \"name\": \"\", \n      \"size\": 0\n    },\n    {\n      \"name\": \"\",\n      \"size\": 0\n    },\n    {\n      \"name\": \"\",\n      \"size\": 0\n    },\n    {\n      \"name\": \"\",\n      \"size\": 0\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/configurar-barcos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "configurar-barcos"
+              ]
+            },
+            "description": "⚠️ CAMBIA TODOS LOS VALORES POR DEFECTO:\n- board_size: 0 → Cambia por tamaño real (8, 10, 12, etc.)\n- name: \"\" → Pon nombre del barco (ej: \"Portaaviones\")\n- size: 0 → Pon tamaño real del barco (2, 3, 4, 5, etc.)\n\n💡 Ejemplo CORRECTO para usar:\n{\n  \"board_size\": 10,\n  \"ships\": [\n    {\"name\": \"Portaaviones\", \"size\": 5},\n    {\"name\": \"Acorazado\", \"size\": 4},\n    {\"name\": \"Submarino\", \"size\": 3},\n    {\"name\": \"Destructor\", \"size\": 3},\n    {\"name\": \"Patrullero\", \"size\": 2}\n  ]\n}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Crear Jugadores",
+      "item": [
+        {
+          "name": "Crear Jugador 1 (Nombre Personalizado)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/jugadores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "jugadores"
+              ]
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "let jsonData = pm.response.json();",
+                    "if (jsonData.player_id) {",
+                    "    pm.collectionVariables.set(\"player_1_id\", jsonData.player_id);",
+                    "    console.log(\"Player 1 ID guardado: \" + jsonData.player_id);",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "description": "⚠️ PON EL NOMBRE DEL JUGADOR 1 entre las comillas:\n- Ejemplo: {\"name\": \"Ana\"}\n- Ejemplo: {\"name\": \"Jugador Rojo\"}\n- Debe ser único"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Jugador 2 (Nombre Personalizado)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/jugadores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "jugadores"
+              ]
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "let jsonData = pm.response.json();",
+                    "if (jsonData.player_id) {",
+                    "    pm.collectionVariables.set(\"player_2_id\", jsonData.player_id);",
+                    "    console.log(\"Player 2 ID guardado: \" + jsonData.player_id);",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "description": "⚠️ PON EL NOMBRE DEL JUGADOR 2 entre las comillas:\n- Ejemplo: {\"name\": \"Carlos\"}\n- Ejemplo: {\"name\": \"Jugador Azul\"}\n- Debe ser diferente al Jugador 1"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Jugadores Creados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/jugadores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "jugadores"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Partidas - Crear y Configurar",
+      "item": [
+        {
+          "name": "Crear Partida con los 2 Jugadores",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"player_1_id\": \"{{player_1_id}}\",\n  \"player_2_id\": \"{{player_2_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/partidas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partidas"
+              ]
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "let jsonData = pm.response.json();",
+                    "if (jsonData.game_id) {",
+                    "    pm.collectionVariables.set(\"game_id\", jsonData.game_id);",
+                    "    console.log(\"Game ID guardado: \" + jsonData.game_id);",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
+          },
+          "response": []
+        },
+        {
+          "name": "Colocar Flota - Jugador 1 (TÚ defines coordenadas)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  }\n]"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/partidas/{{game_id}}/flota/{{player_1_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partidas",
+                "{{game_id}}",
+                "flota",
+                "{{player_1_id}}"
+              ]
+            },
+            "description": "⚠️ CAMBIA TODOS LOS VALORES POR DEFECTO:\n- name: \"\" → MISMO nombre que configuraste\n- size: 0 → MISMO tamaño que configuraste  \n- orientation: \"\" → \"HORIZONTAL\" o \"VERTICAL\"\n- coordinates: Cambia todos los (0,0) por coordenadas reales\n\n💡 Ejemplo CORRECTO para un barco:\n{\n  \"name\": \"Portaaviones\",\n  \"size\": 5,\n  \"orientation\": \"HORIZONTAL\", \n  \"coordinates\": [\n    {\"row\": 0, \"col\": 0},\n    {\"row\": 0, \"col\": 1},\n    {\"row\": 0, \"col\": 2},\n    {\"row\": 0, \"col\": 3},\n    {\"row\": 0, \"col\": 4}\n  ]\n}"
+          },
+          "response": []
+        },
+        {
+          "name": "Colocar Flota - Jugador 2 (TÚ defines coordenadas)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  },\n  {\n    \"name\": \"\",\n    \"size\": 0,\n    \"orientation\": \"\",\n    \"coordinates\": [\n      {\"row\": 0, \"col\": 0},\n      {\"row\": 0, \"col\": 0}\n    ]\n  }\n]"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/partidas/{{game_id}}/flota/{{player_2_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partidas",
+                "{{game_id}}",
+                "flota",
+                "{{player_2_id}}"
+              ]
+            },
+            "description": "⚠️ CAMBIA TODOS LOS VALORES POR DEFECTO:\n- name: \"\" → MISMO nombre que configuraste\n- size: 0 → MISMO tamaño que configuraste  \n- orientation: \"\" → \"HORIZONTAL\" o \"VERTICAL\"\n- coordinates: Cambia todos los (0,0) por coordenadas reales\n- ⚠️ IMPORTANTE: Coordenadas DIFERENTES al Jugador 1"
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Estado del Juego - Jugador 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partidas/{{game_id}}/estado/{{player_1_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partidas",
+                "{{game_id}}",
+                "estado",
+                "{{player_1_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Disparos - Jugar (TÚ defines coordenadas)",
+      "item": [
+        {
+          "name": "Disparar - Jugador 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"player_id\": \"{{player_1_id}}\",\n  \"row\": 0,\n  \"col\": 0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/partidas/{{game_id}}/disparo",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partidas",
+                "{{game_id}}",
+                "disparo"
+              ]
+            },
+            "description": "⚠️ CAMBIA LAS COORDENADAS DE DISPARO:\n- row: 0 → Cambia por fila (0 a board_size-1)\n- col: 0 → Cambia por columna (0 a board_size-1)\n\n💡 Ejemplo para board_size=10:\n{\n  \"player_id\": \"{{player_1_id}}\",\n  \"row\": 5,\n  \"col\": 5\n}"
+          },
+          "response": []
+        },
+        {
+          "name": "Disparar - Jugador 2", 
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"player_id\": \"{{player_2_id}}\",\n  \"row\": 0,\n  \"col\": 0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/partidas/{{game_id}}/disparo",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partidas",
+                "{{game_id}}",
+                "disparo"
+              ]
+            },
+            "description": "⚠️ CAMBIA LAS COORDENADAS DE DISPARO:\n- row: 0 → Cambia por fila (0 a board_size-1)\n- col: 0 → Cambia por columna (0 a board_size-1)\n\n💡 Ejemplo para board_size=10:\n{\n  \"player_id\": \"{{player_2_id}}\",\n  \"row\": 3,\n  \"col\": 7\n}"
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Estado del Juego - Jugador 2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partidas/{{game_id}}/estado/{{player_2_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partidas",
+                "{{game_id}}",
+                "estado",
+                "{{player_2_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "game_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "player_1_id", 
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "player_2_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

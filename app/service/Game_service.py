@@ -274,10 +274,10 @@ class GameService:
             result['hit'] = True
             result['ship_name'] = target_ship.name
             
-            if target_ship.is_sunk():
+            if target_ship.is_sunk:
                 result['sunk'] = True
                 
-                if defender.all_ships_sunk():
+                if defender.all_ships_sunk:
                     result['game_over'] = True
                     result['winner'] = attacker.name
                     game.state = GameState.FINISHED
@@ -315,8 +315,8 @@ class GameService:
             'my_ships': self._get_ships_info(player.fleet),
             'my_shots': self._get_shots_info(player.shots),
             'received_shots': self._get_shots_info(opponent.shots),
-            'ships_remaining': len([s for s in player.fleet if not s.is_sunk()]),
-            'opponent_ships_remaining': len([s for s in opponent.fleet if not s.is_sunk()]),
+            'ships_remaining': len([s for s in player.fleet if not s.is_sunk]),
+            'opponent_ships_remaining': len([s for s in opponent.fleet if not s.is_sunk]),
             'winner': str(game.winner_id) if game.winner_id else None
         }
     
@@ -350,7 +350,7 @@ class GameService:
                 'name': ship.name,
                 'size': ship.size,
                 'hits': ship.hits,
-                'sunk': ship.is_sunk(),
+                'sunk': ship.is_sunk,
                 'coordinates': [(c.row, c.col) for c in ship.coordinates]
             }
             for ship in ships
